@@ -18,8 +18,8 @@ body {
   background-color: #f4e8d1;
   background-image: radial-gradient(circle at center, #f4e8d1 0%, #e0cda5 100%);
   background-attachment: fixed;
-  margin: 0;
-  padding: 0;
+  line-height: 1.5;
+  font-weight: 400;
 }
 
 /* Parchment Style (Replacing Glassmorphism) */

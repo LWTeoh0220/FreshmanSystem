@@ -1,85 +1,57 @@
-import React, { useRef, useEffect } from 'react';
-import { generateMap, BUILDING_LABELS } from './campusData';
+import React, { useRef, useEffect, useState } from 'react';
+import { MAP_DATA, COLLISION_BOXES } from './campusData';
 
-const TILE_COLORS = {
-  0: '#3a7a20',   // 草地
-  1: '#686058',   // 馬路
-  2: '#b86858',   // 校內磚紅走道
-  3: '#a08060',   // 建築（先統一用這個顏色）
-  4: '#2d6818',   // 樹
-};
-
-const TS = 16;
 const VIEW_W = 1200;
-const VIEW_H = 620;
+const VIEW_H = 700;
+const ZOOM = 1.6; // 放大倍率
+const PLAYER_SPEED = 3;
 
-function drawLabels(ctx, labels, camera) {
-  ctx.font = '10px monospace';
-  ctx.textAlign = 'center';
+function drawPlayer(ctx, px, py, camera) {
+  const sx = (px - camera.x) * ZOOM;
+  const sy = (py - camera.y) * ZOOM;
 
-  labels.forEach(b => {
-    const bx = b.x * TS - camera.x;
-    const by = b.y * TS - camera.y;
-    const bw = b.w * TS;
-    const bh = b.h * TS;
+  ctx.fillStyle = 'rgba(0,0,0,0.4)';
+  ctx.beginPath();
+  ctx.ellipse(sx, sy + 14 * ZOOM, 8 * ZOOM, 3 * ZOOM, 0, 0, Math.PI * 2);
+  ctx.fill();
 
-    if (bx + bw < 0 || bx > VIEW_W || by + bh < 0 || by > VIEW_H) return;
+  ctx.strokeStyle = '#202020';
+  ctx.lineWidth = 1 * ZOOM;
 
-    const cx = bx + bw / 2;
-    const cy = by + bh / 2;
-    const lw = ctx.measureText(b.name).width + 8;
+  ctx.fillStyle = '#ffccaa';
+  ctx.fillRect(sx - 4 * ZOOM, sy - 8 * ZOOM, 8 * ZOOM, 8 * ZOOM);
+  ctx.strokeRect(sx - 4 * ZOOM, sy - 8 * ZOOM, 8 * ZOOM, 8 * ZOOM);
 
-    ctx.fillStyle = 'rgba(244,232,209,0.90)';
-    ctx.fillRect(cx - lw/2, cy - 8, lw, 16);
-    ctx.fillStyle = '#3a2a18';
-    ctx.fillText(b.name, cx, cy + 4);
-  });
-}
+  ctx.fillStyle = '#3060ff';
+  ctx.fillRect(sx - 5 * ZOOM, sy, 10 * ZOOM, 10 * ZOOM);
+  ctx.strokeRect(sx - 5 * ZOOM, sy, 10 * ZOOM, 10 * ZOOM);
 
-function render(ctx, map, camera) {
-  const startCol = Math.max(0, Math.floor(camera.x / TS));
-  const startRow = Math.max(0, Math.floor(camera.y / TS));
-  const endCol = Math.min(160, startCol + Math.ceil(VIEW_W / TS) + 1);
-  const endRow = Math.min(90,  startRow + Math.ceil(VIEW_H / TS) + 1);
-
-  for (let r = startRow; r < endRow; r++) {
-    for (let c = startCol; c < endCol; c++) {
-      const tile = map[r][c];
-      const px = c * TS - camera.x;
-      const py = r * TS - camera.y;
-      ctx.fillStyle = TILE_COLORS[tile] || '#3a7a20';
-      ctx.fillRect(px, py, TS, TS);
-    }
-  }
-
-  drawLabels(ctx, BUILDING_LABELS, camera);
+  ctx.fillStyle = '#ff0000';
+  ctx.fillRect(sx - 6 * ZOOM, sy + 10 * ZOOM, 5 * ZOOM, 4 * ZOOM);
+  ctx.strokeRect(sx - 6 * ZOOM, sy + 10 * ZOOM, 5 * ZOOM, 4 * ZOOM);
+  ctx.fillRect(sx + 1 * ZOOM, sy + 10 * ZOOM, 5 * ZOOM, 4 * ZOOM);
+  ctx.strokeRect(sx + 1 * ZOOM, sy + 10 * ZOOM, 5 * ZOOM, 4 * ZOOM);
 }
 
 export default function CampusMap() {
   const canvasRef = useRef(null);
-  const mapDataRef = useRef(generateMap());
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const imgRef = useRef(null);
   
-  const posRef = useRef({ px: 31 * 16, py: 30 * 16 });
+  const posRef = useRef({ px: 0, py: 0 });
   const cameraRef = useRef({ x: 0, y: 0 });
   const keysRef = useRef({ w: false, a: false, s: false, d: false });
 
-  function isWalkable(map, px, py) {
-    // 檢查四個角，避免卡牆
-    const margin = 4;
-    const corners = [
-      [px + margin, py + margin],
-      [px + 16 - margin, py + margin],
-      [px + margin, py + 16 - margin],
-      [px + 16 - margin, py + 16 - margin],
-    ];
-    for (let [cx, cy] of corners) {
-      const col = Math.floor(cx / 16);
-      const row = Math.floor(cy / 16);
-      if (col < 0 || row < 0 || col >= 160 || row >= 90) return false;
-      if (map[row][col] === 3 || map[row][col] === 4) return false;
-    }
-    return true;
-  }
+  useEffect(() => {
+    const img = new Image();
+    img.src = MAP_DATA.imageUrl;
+    img.onload = () => {
+      imgRef.current = img;
+      posRef.current.px = (MAP_DATA.startX / 100) * img.width;
+      posRef.current.py = (MAP_DATA.startY / 100) * img.height;
+      setImageLoaded(true);
+    };
+  }, []);
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -106,11 +78,26 @@ export default function CampusMap() {
     };
   }, []);
 
+  function isWalkable(px, py, imgWidth, imgHeight) {
+    const pX = (px / imgWidth) * 100;
+    const pY = (py / imgHeight) * 100;
+    if (pX < 0 || pX > 100 || pY < 0 || pY > 100) return false;
+    for (let box of COLLISION_BOXES) {
+      if (pX >= box.x && pX <= box.x + box.w && pY >= box.y && pY <= box.y + box.h) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   useEffect(() => {
+    if (!imageLoaded || !imgRef.current) return;
     const canvas = canvasRef.current;
-    if (!canvas) return;
     const ctx = canvas.getContext('2d');
+    ctx.imageSmoothingEnabled = false;
+    
     let animationId;
+    const img = imgRef.current;
 
     const gameLoop = () => {
       let dx = 0; let dy = 0;
@@ -121,43 +108,61 @@ export default function CampusMap() {
 
       if (dx !== 0 && dy !== 0) { dx *= 0.707; dy *= 0.707; }
 
-      const speed = 3.5;
       if (dx !== 0 || dy !== 0) {
-        const nextX = posRef.current.px + dx * speed;
-        if (isWalkable(mapDataRef.current, nextX, posRef.current.py)) {
-          posRef.current.px = nextX;
-        }
-        const nextY = posRef.current.py + dy * speed;
-        if (isWalkable(mapDataRef.current, posRef.current.px, nextY)) {
-          posRef.current.py = nextY;
-        }
+        const nextX = posRef.current.px + dx * PLAYER_SPEED;
+        if (isWalkable(nextX, posRef.current.py, img.width, img.height)) posRef.current.px = nextX;
+        const nextY = posRef.current.py + dy * PLAYER_SPEED;
+        if (isWalkable(posRef.current.px, nextY, img.width, img.height)) posRef.current.py = nextY;
       }
 
-      cameraRef.current.x = Math.max(0, Math.min(160*16 - VIEW_W, posRef.current.px - VIEW_W/2));
-      cameraRef.current.y = Math.max(0, Math.min(90*16  - VIEW_H, posRef.current.py - VIEW_H/2));
+      const viewW_inImagePixels = VIEW_W / ZOOM;
+      const viewH_inImagePixels = VIEW_H / ZOOM;
+      cameraRef.current.x = Math.max(0, Math.min(img.width - viewW_inImagePixels, posRef.current.px - viewW_inImagePixels / 2));
+      cameraRef.current.y = Math.max(0, Math.min(img.height - viewH_inImagePixels, posRef.current.py - viewH_inImagePixels / 2));
 
-      ctx.clearRect(0, 0, VIEW_W, VIEW_H);
-      render(ctx, mapDataRef.current, cameraRef.current);
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, VIEW_W, VIEW_H);
 
-      // Draw player (a simple red square)
-      const screenPx = posRef.current.px - cameraRef.current.x;
-      const screenPy = posRef.current.py - cameraRef.current.y;
-      ctx.fillStyle = '#ff0000';
-      ctx.fillRect(screenPx, screenPy, 16, 16);
+      ctx.drawImage(
+        img, 
+        cameraRef.current.x, cameraRef.current.y, 
+        viewW_inImagePixels, viewH_inImagePixels, 
+        0, 0, VIEW_W, VIEW_H
+      );
+
+      drawPlayer(ctx, posRef.current.px, posRef.current.py, cameraRef.current);
 
       animationId = window.requestAnimationFrame(gameLoop);
     };
 
     gameLoop();
 
-    return () => window.cancelAnimationFrame(animationId);
-  }, []);
+    return () => {
+      window.cancelAnimationFrame(animationId);
+    };
+  }, [imageLoaded]);
 
   return (
-    <div className="relative w-[1200px] h-[620px] border-4 border-[#8b5a2b] mx-auto overflow-hidden bg-[#3a7a20]">
-      <canvas ref={canvasRef} width={VIEW_W} height={VIEW_H} className="block outline-none" tabIndex="0" />
-      <div className="absolute bottom-4 left-4 bg-white/90 p-3 rounded shadow font-bold text-sm text-black">
-        <p>⌨️ WASD / 方向鍵 移動</p>
+    <div className="flex flex-col items-center gap-4 my-8">
+      <div className="relative w-[1200px] h-[700px] bg-white border border-gray-300 shadow-2xl overflow-hidden rounded-md flex-shrink-0">
+        {!imageLoaded && (
+          <div className="absolute inset-0 flex items-center justify-center bg-gray-900 text-white z-10 flex-col">
+            <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500 mb-4"></div>
+            <p className="text-xl font-bold">载入完美全景地图中...</p>
+          </div>
+        )}
+        <canvas 
+          ref={canvasRef} 
+          width={VIEW_W} 
+          height={VIEW_H} 
+          className="block outline-none" 
+          tabIndex="0" 
+          style={{ imageRendering: 'pixelated' }}
+        />
+
+        <div className="absolute bottom-4 right-4 bg-white/90 px-4 py-2 rounded-sm font-bold text-sm text-gray-800 border-2 border-black pointer-events-none shadow-lg">
+          <p>▶ WASD / 方向键移动</p>
+        </div>
       </div>
     </div>
   );

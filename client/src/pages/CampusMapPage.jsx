@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import CampusMap from '../components/campus/CampusMap';
+import ErrorBoundary from '../components/ErrorBoundary';
 
 export default function CampusMapPage() {
   useEffect(() => {
@@ -24,7 +25,9 @@ export default function CampusMapPage() {
       </div>
       
       <div className="flex-1 w-full flex items-center justify-center">
-        <CampusMap />
+        <ErrorBoundary>
+          <CampusMap />
+        </ErrorBoundary>
       </div>
     </div>
   );
