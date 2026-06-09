@@ -17,7 +17,7 @@ export function PlayerProvider({ children }) {
   const [activeTitle, setActiveTitle] = useState('大馬萌新');
   const [unlockedTitles, setUnlockedTitles] = useState(['大馬萌新', '剛剛抵台的 Cincai 冒險者']);
   const [activeAvatar, setActiveAvatar] = useState('avatar_default');
-  const [unlockedAvatars, setUnlockedAvatars] = useState(['avatar_default']);
+  const [unlockedAvatars, setUnlockedAvatars] = useState(['avatar_default', 'avatar_girl_wizard']);
   const [isLevelingUp, setIsLevelingUp] = useState(false);
   const [firstClearQuests, setFirstClearQuests] = useState([]);
   
@@ -54,7 +54,7 @@ export function PlayerProvider({ children }) {
         setActiveTitle(parsed.activeTitle || parsed.title || '大馬萌新');
         setUnlockedTitles(parsed.unlockedTitles || ['大馬萌新', '剛剛抵台的 Cincai 冒險者']);
         setActiveAvatar(parsed.activeAvatar || 'avatar_default');
-        setUnlockedAvatars(parsed.unlockedAvatars || ['avatar_default']);
+        setUnlockedAvatars(parsed.unlockedAvatars || ['avatar_default', 'avatar_girl_wizard']);
         setFirstClearQuests(parsed.firstClearQuests || []);
         setProjectBought(parsed.projectBought || false);
         setProjectQuestCleared(parsed.projectQuestCleared || false);
@@ -210,7 +210,7 @@ export function PlayerProvider({ children }) {
 
   return (
     <PlayerContext.Provider value={{ 
-      level, xp, coins, hp, mp, setMp,
+      level, setLevel, xp, coins, hp, mp, setMp,
       title: activeTitle, activeTitle, setActiveTitle, 
       unlockedTitles, unlockTitle, 
       activeAvatar, setActiveAvatar, unlockedAvatars, setUnlockedAvatars,

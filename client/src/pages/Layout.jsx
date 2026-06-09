@@ -60,7 +60,8 @@ export default function Layout() {
 
   // Avatar Dictionary
   const avatars = {
-    avatar_default: { icon: '🧙‍♂️', name: '藍帽法師', condition: '預設解鎖' },
+    avatar_default: { icon: '🧙‍♂️', name: '男魔法师', condition: '預設解鎖' },
+    avatar_girl_wizard: { icon: '🧙‍♀️', name: '女魔法师', condition: '預設解鎖' },
     avatar_warrior: { icon: '⚔️', name: '像素戰士', condition: '請在公會商店轉蛋機獲取' },
     avatar_sage: { icon: '📜', name: '智慧賢者', condition: '需完成所有新生行政主線' },
     avatar_assassin: { icon: '🗡️', name: '隱秘刺客', condition: '需綁定出生陣營' }
