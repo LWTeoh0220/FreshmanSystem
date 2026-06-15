@@ -22,10 +22,10 @@ export default function AchievementWall({ completedNodes }) {
   // Title Definitions
   const allAvailableTitles = [
     { id: 't1', name: '大馬萌新', description: '初來乍到，對一切充滿好奇。', icon: 'User' },
-    { id: 't2', name: '剛剛抵台的 Cincai 冒險者', description: '凡事 Cincai 就好，隨遇而安。', icon: 'Smile' },
-    { id: 't3', name: '通訊達人', description: '成功辦理台灣門號。', icon: 'Phone' },
+    { id: 't2', name: '剛抵臺的冒險者', description: '終於離開了房間，正式踏上臺灣的土地！', icon: 'Smile' },
+    { id: 't3', name: '通訊達人', description: '成功辦理臺灣門號。', icon: 'Phone' },
     { id: 't4', name: '新手村生存者', description: '順利度過開學第一週。', icon: 'Shield' },
-    { id: 't5', name: '高階冒險者', description: '已完全適應台灣生活步調。', icon: 'Sword' },
+    { id: 't5', name: '高階冒險者', description: '已完全適應臺灣生活步調。', icon: 'Sword' },
     { id: 't6', name: '綜科館迷路魔王', description: '在綜科館找不到教室。', icon: 'Compass' },
     { id: 't7', name: '光華商場地縛靈', description: '買電腦配備買到忘記回家。', icon: 'Cpu' },
     { id: 't8', name: '北科首富', description: '公會金幣滿出來了。', icon: 'Crown' },
@@ -252,7 +252,7 @@ export default function AchievementWall({ completedNodes }) {
                   <h3 className={`text-center font-black text-lg leading-tight px-2 ${
                     isUnlocked ? 'text-[#4a3b32]' : 'text-[#8b5a2b]/50'
                   }`}>
-                    {isHiddenLocked ? '【神秘隱藏成就】' : (milestone.achievementName || '神祕成就')}
+                    {isHiddenLocked ? '【神祕隱藏成就】' : (milestone.achievementName || '神祕成就')}
                   </h3>
 
                   {/* Absolute Tooltip centered above the card */}
@@ -262,7 +262,7 @@ export default function AchievementWall({ completedNodes }) {
                         {isUnlocked ? '✅ 徽章已解鎖' : '🔒 條件未達成'}
                       </div>
                       <h4 className="text-lg font-black mb-2 leading-tight text-[#f4e8d1]">
-                        {isHiddenLocked ? '【神秘隱藏成就】' : milestone.achievementName}
+                        {isHiddenLocked ? '【神祕隱藏成就】' : milestone.achievementName}
                       </h4>
                       <p className="text-sm text-[#d2b48c] leading-relaxed mb-3 font-medium">
                         {isUnlocked 
@@ -270,8 +270,8 @@ export default function AchievementWall({ completedNodes }) {
                             ? '🎉 已達成隱藏成就！成功獲得大馬學長姐的黑科技傳承，解鎖稱號：【黑科技觀測者】！'
                             : `已完成：${milestone.title}` 
                           : isHiddenLocked 
-                            ? '🔒 這是個秘密成就... 在新手村進行特定瘋狂行為或在公會商店轉蛋即可解鎖！' 
-                            : `需完成「${milestone.title}」才可解鎖`}
+                            ? '🔒 這是個祕密成就... 在新手村進行特定瘋狂行為或在公會商店轉蛋即可解鎖！' 
+                            : `需完成「${milestone.title}」纔可解鎖`}
                       </p>
                       <div className="text-xs text-[#ffcc00] font-bold bg-[#8b5a2b]/30 p-2 rounded-md flex items-center">
                         💎 通關獎勵：成就積分 +10, 金幣 +50

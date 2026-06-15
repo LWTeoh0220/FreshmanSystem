@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { usePlayer } from '../contexts/PlayerContext';
 import { ShoppingBag, Lock, Unlock, Download, Sparkles, Zap, Flame, Eye, Leaf, BookOpen, Undo2, Map, Book, Archive } from 'lucide-react';
 import confettiPkg from 'canvas-confetti';
+import GachaInteractiveModal from './GachaInteractiveModal';
 const confetti = typeof confettiPkg === 'function' ? confettiPkg : confettiPkg.default;
 
 const lootItems = [
@@ -10,7 +11,7 @@ const lootItems = [
     name: '北科大周邊美食地圖',
     price: 50,
     icon: '🍜',
-    description: '匯集建國南路與八德路周邊隱藏版平價美食，拯救月底吃土的你。',
+    description: '匯集建國南路與八德路周邊隱藏版平價美食，拯救月底喫土的你。',
     pools: {
       Common: { text: '【普通發現】光華商場後巷的 80 元大雞排便當。', title: '平價美食' },
       Rare: { text: '【稀有情報】校門口右轉的麵攤，跟老闆說「通關密語」可加蛋！', title: '內行情報' },
@@ -91,7 +92,7 @@ const legacyItems = [
     pools: {
       Common: { title: '溫濕度感測器雛形', description: '基礎的 Arduino 溫濕度監測系統，可用於溫室環境監控。' },
       Rare: { title: '智能避障自走車', description: '結合紅外線與超音波感測器的自動導航小車，具備基礎 ROS 架構。' },
-      Epic: { title: '無人機群控系統 (傳奇)', description: '曾獲全國機器人大賽特優的傳奇專案！具備完整飛控與影像辨識。' }
+      Epic: { title: '無人機羣控系統 (傳奇)', description: '曾獲全國機器人大賽特優的傳奇專案！具備完整飛控與影像辨識。' }
     }
   },
   {
@@ -115,7 +116,7 @@ const legacyItems = [
     },
     pools: {
       Common: { title: '基礎排序演算法視覺化', description: '用 C++ 實作 Bubble Sort 與 Quick Sort 的終端機展示。' },
-      Rare: { title: '社群情緒分析儀', description: '利用 Python 爬蟲與 NLP 套件，即時分析 PTT 留言的風向與情緒。' },
+      Rare: { title: '社羣情緒分析儀', description: '利用 Python 爬蟲與 NLP 套件，即時分析 PTT 留言的風向與情緒。' },
       Epic: { title: '基於 LLM 的虛擬導師 (傳奇)', description: '串接大型語言模型並微調的 AI 家教，能精準回答資工系所有必修問題！' }
     }
   },
@@ -126,7 +127,7 @@ const legacyItems = [
     name: '萬象流派：開源生態',
     price: 10,
     icon: <Leaf size={48} />,
-    description: '致力於開源工具與社群協作的工具專案，生生不息的生態網路。',
+    description: '致力於開源工具與社羣協作的工具專案，生生不息的生態網路。',
     hiddenContent: '👉 [點擊查閱萬象流派專案]\n\n💡 提示：公會手札中的傳奇任務已經為你解鎖！',
     colors: {
       border: 'border-[#4caf50]',
@@ -140,7 +141,7 @@ const legacyItems = [
     },
     pools: {
       Common: { title: '社團活動點名腳本', description: '基於 Google Apps Script 的自動點名與寄信工具。' },
-      Rare: { title: '校園共乘媒合平台', description: '幫助學生尋找返鄉共乘的開源平台，累計超過 1000 次 PR。' },
+      Rare: { title: '校園共乘媒合平臺', description: '幫助學生尋找返鄉共乘的開源平臺，累計超過 1000 次 PR。' },
       Epic: { title: '全端框架生態系貢獻 (傳奇)', description: '成為知名開源框架的核心貢獻者，程式碼被全球數百萬專案引用！' }
     }
   }
@@ -185,6 +186,7 @@ export default function GuildShop() {
   const [shakingItemId, setShakingItemId] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
   const [activeGachaModal, setActiveGachaModal] = useState(null);
+  const [interactiveGachaPending, setInteractiveGachaPending] = useState(null);
   const [isLooting, setIsLooting] = useState(false);
   const [lootingItemId, setLootingItemId] = useState(null);
   const [viewStatus, setViewStatus] = useState('lobby'); // 'lobby', 'gacha', 'market', 'legacy', 'library'
@@ -192,7 +194,7 @@ export default function GuildShop() {
 
   const npcDialogues = [
     '歡迎光臨！今天想抽個八卦轉蛋，還是看看學長姐留下的黑科技魔法書呢？',
-    '冒險者，聽說搭乘台灣捷運時千萬不能飲食，否則會被新手村守衛處以巨額罰款喔！',
+    '冒險者，聽說搭乘臺灣捷運時千萬不能飲食，否則會被新手村守衛處以巨額罰款喔！',
     '火燒屁股啦！我看下方的任務死線戰情室只剩 2 天了，還不快去交付任務報酬！',
     '(揉眼睛) 呼... 幫學長姐整理那些黑科技魔法書，我的 HP 體力值快要歸零了...'
   ];
@@ -266,6 +268,24 @@ export default function GuildShop() {
     if (haggledItems.includes(item.id)) actualPrice = Math.floor(actualPrice * 0.8);
 
     if (spendCoins(actualPrice)) {
+      if (item.id === 'loot_gacha') {
+        const rand = Math.random();
+        let rarity = 'Common';
+        if (rand > 0.9) rarity = 'Epic'; // 10%
+        else if (rand > 0.6) rarity = 'Rare'; // 30%
+        else rarity = 'Common'; // 60%
+        
+        const result = item.pools[rarity];
+        recordLootPurchase(item.id, result);
+        
+        setInteractiveGachaPending({
+          ...result,
+          rarity,
+          sourceName: item.name
+        });
+        return;
+      }
+
       setIsLooting(true);
       setLootingItemId(item.id);
       setTimeout(() => {
@@ -280,24 +300,32 @@ export default function GuildShop() {
         const result = item.pools[rarity];
         recordLootPurchase(item.id, result);
         
-        if (rarity === 'Epic' || rarity === 'Rare') {
-          try {
-            if (confetti) {
-              confetti({
-                particleCount: rarity === 'Epic' ? 200 : 100,
-                spread: 90,
-                origin: { y: 0.5 },
-                colors: rarity === 'Epic' ? ['#ffcc00', '#ffd700', '#fff8e1'] : ['#00e676', '#69f0ae']
-              });
-            }
-          } catch (e) {}
-        }
-        
-        setActiveGachaModal({
+        const finalModalData = {
           ...result,
           rarity,
           sourceName: item.name
-        });
+        };
+        
+        if (item.id === 'loot_gacha') {
+          // Open interactive sequence instead of direct result
+          setInteractiveGachaPending(finalModalData);
+        } else {
+          // Standard instant pop for food and almanac
+          if (rarity === 'Epic' || rarity === 'Rare') {
+            try {
+              if (confetti) {
+                confetti({
+                  particleCount: rarity === 'Epic' ? 200 : 100,
+                  spread: 90,
+                  origin: { y: 0.5 },
+                  colors: rarity === 'Epic' ? ['#ffcc00', '#ffd700', '#fff8e1'] : ['#00e676', '#69f0ae']
+                });
+              }
+            } catch (e) {}
+          }
+          
+          setActiveGachaModal(finalModalData);
+        }
       }, 1200);
     } else {
       setShakingItemId(item.id);
@@ -414,7 +442,7 @@ export default function GuildShop() {
     return (
       <div 
         key={item.id}
-        className={`bg-[#f4e8d1] border-4 border-[#8b5a2b] rounded-2xl shadow-xl p-6 flex flex-col items-center relative jrpg-border transition-transform hover:-translate-y-2 w-full max-w-[320px] ${isShaking ? 'animate-[shake_0.5s_ease-in-out]' : ''} overflow-hidden`}
+        className={`bg-[#f4e8d1] border-4 border-[#8b5a2b] rounded-2xl shadow-xl p-6 flex flex-col items-center relative jrpg-border transition-all hover:-translate-y-2 w-full max-w-[320px] ${isShaking ? 'animate-[shake_0.5s_ease-in-out]' : ''} ${isThisLooting && item.id === 'loot_gacha' ? 'scale-105 shadow-[0_0_40px_rgba(255,215,0,0.6)] border-[#ffcc00] z-30' : ''} overflow-hidden`}
       >
         {/* SOLD OUT STAMP */}
         {isSoldOut && (
@@ -436,14 +464,22 @@ export default function GuildShop() {
           <div className="relative mb-4 mt-2">
             {isThisLooting && (
               <div className="absolute inset-0 z-0">
-                <div className="absolute inset-0 bg-yellow-400 rounded-full animate-ping opacity-60 blur-md"></div>
-                <div className="absolute top-0 left-1/2 w-2 h-2 bg-yellow-300 rounded-full animate-[flyOutTop_0.5s_ease-out_infinite]"></div>
-                <div className="absolute bottom-0 left-1/2 w-2 h-2 bg-yellow-300 rounded-full animate-[flyOutBottom_0.5s_ease-out_infinite]"></div>
-                <div className="absolute left-0 top-1/2 w-2 h-2 bg-yellow-300 rounded-full animate-[flyOutLeft_0.5s_ease-out_infinite]"></div>
-                <div className="absolute right-0 top-1/2 w-2 h-2 bg-yellow-300 rounded-full animate-[flyOutRight_0.5s_ease-out_infinite]"></div>
+                <div className="absolute inset-0 bg-yellow-400 rounded-full animate-ping opacity-60 blur-xl scale-[2.0]"></div>
+                
+                {/* Rotating magical array / rays */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-[conic-gradient(from_0deg,transparent_0_340deg,rgba(255,215,0,0.8)_360deg)] animate-[spin_0.3s_linear_infinite] rounded-full mix-blend-overlay"></div>
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-[conic-gradient(from_0deg,rgba(255,143,0,0.8)_0_20deg,transparent_20deg_180deg,rgba(255,143,0,0.8)_180deg_200deg,transparent_200deg_360deg)] animate-[spin_0.5s_linear_infinite_reverse] rounded-full mix-blend-screen"></div>
+
+                <div className="absolute top-0 left-1/2 w-4 h-4 bg-yellow-300 rounded-full animate-[flyOutTop_0.4s_ease-out_infinite] shadow-[0_0_15px_#ffcc00]"></div>
+                <div className="absolute bottom-0 left-1/2 w-4 h-4 bg-yellow-300 rounded-full animate-[flyOutBottom_0.5s_ease-out_infinite] shadow-[0_0_15px_#ffcc00]"></div>
+                <div className="absolute left-0 top-1/2 w-4 h-4 bg-yellow-300 rounded-full animate-[flyOutLeft_0.4s_ease-out_infinite] shadow-[0_0_15px_#ffcc00]"></div>
+                <div className="absolute right-0 top-1/2 w-4 h-4 bg-yellow-300 rounded-full animate-[flyOutRight_0.5s_ease-out_infinite] shadow-[0_0_15px_#ffcc00]"></div>
+                
+                <div className="absolute -top-6 -left-6 text-3xl animate-[flyOutTop_0.5s_ease-out_infinite] drop-shadow-[0_0_10px_#ffcc00] z-20">✨</div>
+                <div className="absolute -bottom-6 -right-6 text-3xl animate-[flyOutBottom_0.6s_ease-out_infinite] drop-shadow-[0_0_10px_#ffcc00] z-20">🪙</div>
               </div>
             )}
-            <div className={`text-6xl drop-shadow-md relative z-10 ${isThisLooting ? 'animate-[shake_0.2s_ease-in-out_infinite]' : ''}`}>
+            <div className={`text-6xl drop-shadow-md relative z-10 transition-transform ${isThisLooting ? 'animate-[shake_0.1s_ease-in-out_infinite] scale-[1.3] drop-shadow-[0_0_20px_rgba(255,215,0,0.8)]' : ''}`}>
               {item.icon}
             </div>
           </div>
@@ -504,13 +540,16 @@ export default function GuildShop() {
             onClick={() => handleBuyLoot(item)}
             disabled={isLooting}
             className={`w-full ${
-              isThisLooting ? 'bg-gray-500 border-gray-600 text-gray-200 shadow-inner' :
-              'bg-gradient-to-b from-[#ffcc00] to-[#ff8f00] border-[#8b5a2b] text-[#4a3b32] shadow-[0_4px_0_#8b5a2b] hover:shadow-[0_2px_0_#8b5a2b] hover:translate-y-[2px]'
+              isThisLooting 
+                ? item.id === 'loot_gacha'
+                  ? 'bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 border-yellow-300 text-white shadow-[0_0_20px_rgba(255,215,0,0.8)] animate-[pulse_0.3s_ease-in-out_infinite]'
+                  : 'bg-gray-500 border-gray-600 text-gray-200 shadow-inner'
+                : 'bg-gradient-to-b from-[#ffcc00] to-[#ff8f00] border-[#8b5a2b] text-[#4a3b32] shadow-[0_4px_0_#8b5a2b] hover:shadow-[0_2px_0_#8b5a2b] hover:translate-y-[2px]'
             } border-2 font-black py-3 rounded-xl transition-all flex items-center justify-center space-x-2 disabled:opacity-70 relative z-10`}
           >
             {isThisLooting ? (
-              <span className="animate-pulse flex items-center">
-                {item.id === 'loot_gacha' ? '🎰 命運齒輪運轉中...' : item.id === 'loot_food' ? '🥢 大快朵頤中...' : '📚 瘋狂吸收知識中...'}
+              <span className={`flex items-center ${item.id === 'loot_gacha' ? 'drop-shadow-md scale-110' : 'animate-pulse'}`}>
+                {item.id === 'loot_gacha' ? '🎰 命運齒輪瘋狂運轉中...' : item.id === 'loot_food' ? '🥢 大快朵頤中...' : '📚 瘋狂吸收知識中...'}
               </span>
             ) : item.price !== currentPrice ? (
               <span className="flex items-center space-x-2">
@@ -1074,6 +1113,20 @@ export default function GuildShop() {
         </div>
         );
       })()}
+
+      {/* ============================== */}
+      {/* INTERACTIVE GACHA MODAL        */}
+      {/* ============================== */}
+      {interactiveGachaPending && (
+        <GachaInteractiveModal 
+          result={interactiveGachaPending}
+          onComplete={() => {
+            const result = interactiveGachaPending;
+            setInteractiveGachaPending(null);
+            setActiveGachaModal(result);
+          }}
+        />
+      )}
 
       <style dangerouslySetInnerHTML={{__html: `
         .perspective-1000 { perspective: 1000px; }

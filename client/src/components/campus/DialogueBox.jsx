@@ -129,9 +129,10 @@ const DialogueBox = ({ dialogueState, onComplete }) => {
         <div 
           style={{
             width: '80%', height: '80%',
-            backgroundImage: `url('/npcs/${npc.sheet || 'students'}NPC_transparent.png')`,
-            backgroundSize: '1200% 800%', // rough estimate for sprite sheet scale
-            backgroundPosition: `-${npc.spriteX * 100}% -${npc.spriteY * 100}%`,
+            backgroundImage: `url('/npcs/${npc.sheet || 's01'}_transparent.png')`,
+            backgroundSize: 'contain', 
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
             imageRendering: 'pixelated'
           }}
         />

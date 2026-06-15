@@ -24,7 +24,7 @@ export default function WorldTreeDisplay() {
 
   const fortunes = [
     "【大吉】神聖巨樹降下賜福：今日圖書館自習有如神助，Debug 一次過！",
-    "【中吉】世界樹的微風：中午去吃學餐會遇到打菜阿姨多給一塊肉！",
+    "【中吉】世界樹的微風：中午去喫學餐會遇到打菜阿姨多給一塊肉！",
     "【小吉】精靈的惡作劇：校園裡散步可能會撿到 10 元硬幣！",
     "【吉】古老智慧的庇護：教授今天心情不錯，點名可能放水哦！"
   ];
@@ -147,7 +147,7 @@ export default function WorldTreeDisplay() {
                 <Briefcase size={20} className="text-[#8b5a2b]" />
               </div>
               <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 w-max bg-black/80 text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover/badge:opacity-100 transition-opacity whitespace-nowrap font-bold">
-                🧳 赴台行李物資 (已解鎖)
+                🧳 赴臺行李物資 (已解鎖)
               </div>
             </div>
           </div>

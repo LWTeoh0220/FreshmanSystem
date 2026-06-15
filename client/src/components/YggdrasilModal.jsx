@@ -137,97 +137,74 @@ export default function YggdrasilModal() {
           {/* === NODES === */}
           
           {/* Top Left: Course Selection (Locked) */}
-          <div className="absolute top-[20%] left-[25%] -translate-x-1/2 -translate-y-1/2 pointer-events-auto group flex flex-col items-center">
+          <div className="absolute top-[20%] left-[25%] -translate-x-1/2 -translate-y-1/2 pointer-events-auto group flex flex-col items-center z-20">
             <div className="relative w-24 h-24 flex items-center justify-center">
-              <div className="absolute inset-0 bg-[#1e293b] rotate-45 rounded-lg border-2 border-[#334155] shadow-[inset_0_0_15px_rgba(0,0,0,0.8),_0_0_20px_rgba(0,0,0,0.5)] transition-transform duration-500 group-hover:scale-110"></div>
-              <div className="relative z-10 text-4xl opacity-50 grayscale drop-shadow-md">📝</div>
+              <div className="absolute inset-0 bg-[#1e293b] rotate-45 rounded-lg border-2 border-[#334155] shadow-[0_0_15px_rgba(0,0,0,0.8)] transition-all duration-500 group-hover:scale-105"></div>
+              <div className="relative z-10 text-4xl opacity-40 grayscale drop-shadow-md">📝</div>
               <div className="absolute -bottom-2 -right-2 text-2xl z-20 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">🔒</div>
             </div>
             {/* Micro Label */}
-            <div className="absolute -bottom-8 w-max text-center text-[#94a3b8] text-[11px] font-black tracking-widest opacity-50 drop-shadow-md z-10 pointer-events-none">
+            <div className="absolute -bottom-10 w-max text-center text-[#94a3b8] text-[11px] font-black tracking-widest z-10 pointer-events-none bg-black/60 px-3 py-1.5 rounded-full border border-[#334155] backdrop-blur-sm">
               【 🔒 封印：全校網路預選 】
-            </div>
-            {/* Hover Tooltip */}
-            <div className="absolute top-[120%] mt-4 left-1/2 -translate-x-1/2 bg-black/90 text-gray-400 border border-gray-600 px-4 py-2 rounded-xl text-center min-w-max shadow-xl opacity-0 group-hover:opacity-100 transition-opacity z-20">
-              <div className="font-black text-sm mb-1">網路選課預選</div>
-              <div className="text-[10px] text-gray-500 bg-gray-800 rounded px-2 py-1">🔒 08/19 賽季解鎖日期</div>
             </div>
           </div>
 
           {/* Top Right: Ceremony (Locked) */}
-          <div className="absolute top-[15%] left-[75%] -translate-x-1/2 -translate-y-1/2 pointer-events-auto group flex flex-col items-center">
+          <div className="absolute top-[15%] left-[75%] -translate-x-1/2 -translate-y-1/2 pointer-events-auto group flex flex-col items-center z-20">
             <div className="relative w-24 h-24 flex items-center justify-center">
-              <div className="absolute inset-0 bg-[#1e293b] rotate-45 rounded-lg border-2 border-[#334155] shadow-[inset_0_0_15px_rgba(0,0,0,0.8),_0_0_20px_rgba(0,0,0,0.5)] transition-transform duration-500 group-hover:scale-110"></div>
-              <div className="relative z-10 text-4xl opacity-50 grayscale drop-shadow-md">🎓</div>
+              <div className="absolute inset-0 bg-[#1e293b] rotate-45 rounded-lg border-2 border-[#334155] shadow-[0_0_15px_rgba(0,0,0,0.8)] transition-all duration-500 group-hover:scale-105"></div>
+              <div className="relative z-10 text-4xl opacity-40 grayscale drop-shadow-md">🎓</div>
               <div className="absolute -bottom-2 -right-2 text-2xl z-20 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">🔒</div>
             </div>
             {/* Micro Label */}
-            <div className="absolute -bottom-8 w-max text-center text-[#94a3b8] text-[11px] font-black tracking-widest opacity-50 drop-shadow-md z-10 pointer-events-none">
+            <div className="absolute -bottom-10 w-max text-center text-[#94a3b8] text-[11px] font-black tracking-widest z-10 pointer-events-none bg-black/60 px-3 py-1.5 rounded-full border border-[#334155] backdrop-blur-sm">
               【 🔒 封印：新學期開學典禮 】
-            </div>
-            {/* Hover Tooltip */}
-            <div className="absolute top-[120%] mt-4 left-1/2 -translate-x-1/2 bg-black/90 text-gray-400 border border-gray-600 px-4 py-2 rounded-xl text-center min-w-max shadow-xl opacity-0 group-hover:opacity-100 transition-opacity z-20">
-              <div className="font-black text-sm mb-1">新生入學典禮</div>
-              <div className="text-[10px] text-gray-500 bg-gray-800 rounded px-2 py-1">🔒 08/25 賽季解鎖日期</div>
             </div>
           </div>
 
           {/* Middle: ARC / Enrollment (Current Core - Lava Orange) */}
           <div className="absolute top-[45%] left-[50%] -translate-x-1/2 -translate-y-1/2 pointer-events-auto group z-30 flex flex-col items-center">
-            {/* Spinning Rune Circle */}
-            <div className="absolute -inset-12 border border-[#ff5722]/30 rounded-full border-dashed animate-[spin_10s_linear_infinite] pointer-events-none"></div>
-            <div className="absolute -inset-16 border-2 border-[#ff9800]/20 rounded-full border-dotted animate-[spin_15s_linear_infinite_reverse] pointer-events-none flex items-center justify-center text-[#ffcc00]/40 text-[8px] tracking-[10px] font-mono">
+            {/* Spinning Rune Circle - Slowed down for elegance */}
+            <div className="absolute -inset-12 border border-[#ff5722]/30 rounded-full border-dashed animate-[spin_20s_linear_infinite] pointer-events-none"></div>
+            <div className="absolute -inset-16 border border-[#ff9800]/10 rounded-full animate-[spin_30s_linear_infinite_reverse] pointer-events-none flex items-center justify-center text-[#ffcc00]/20 text-[8px] tracking-[8px] font-mono">
               YGGDRASIL ARC NODE
             </div>
             
-            {/* Lava Crystal */}
+            {/* Lava Crystal - Elegant breathing glow instead of jumping */}
             <div className="relative w-28 h-28 flex items-center justify-center">
-              <div className="absolute inset-0 bg-gradient-to-br from-[#ff5722] to-[#d84315] rotate-45 rounded-xl border-2 border-[#ffcc00] shadow-[inset_0_0_20px_rgba(255,255,255,0.4),_0_0_40px_rgba(255,87,34,0.8)] transition-transform duration-500 group-hover:scale-110 group-hover:rotate-[135deg]"></div>
-              <div className="absolute inset-0 bg-[#ff9800] blur-xl opacity-50 rounded-full animate-pulse z-[-1]"></div>
-              <div className="relative z-10 text-5xl drop-shadow-[0_2px_5px_rgba(0,0,0,0.6)] animate-floating">🛡️</div>
+              <div className="absolute inset-0 bg-gradient-to-br from-[#ff5722] to-[#d84315] rotate-45 rounded-xl border-2 border-[#ffcc00] shadow-[0_0_30px_rgba(255,87,34,0.6)] transition-all duration-700 group-hover:shadow-[0_0_50px_rgba(255,204,0,0.8)] group-hover:scale-105"></div>
+              <div className="absolute inset-2 bg-[#ffcc00] blur-md opacity-40 rounded-full animate-[pulse_4s_ease-in-out_infinite] pointer-events-none"></div>
+              <div className="relative z-10 text-5xl drop-shadow-lg transition-transform duration-300 group-hover:scale-110">🛡️</div>
             </div>
             {/* Micro Label */}
-            <div className="absolute -bottom-10 w-max text-center text-[#ffcc00] text-[11px] font-black tracking-widest drop-shadow-[0_0_8px_rgba(255,152,0,0.8)] animate-[pulse_2s_ease-in-out_infinite] z-10 pointer-events-none">
+            <div className="absolute -bottom-12 w-max text-center text-[#ffcc00] text-[12px] font-black tracking-widest drop-shadow-[0_0_5px_rgba(255,152,0,0.8)] z-10 pointer-events-none bg-black/50 px-4 py-1.5 rounded-full border border-[#ff9800]/50 backdrop-blur-md">
               【 🔥 主線：入學與居留手續 】
-            </div>
-            {/* Hover Tooltip */}
-            <div className="absolute top-[120%] mt-8 left-1/2 -translate-x-1/2 bg-black/90 border-2 border-[#ff5722] text-white px-5 py-3 rounded-xl text-center min-w-max shadow-[0_10px_20px_rgba(255,87,34,0.3)] opacity-0 group-hover:opacity-100 transition-all scale-95 group-hover:scale-100 z-20">
-              <div className="font-black text-lg text-[#ffcc00] mb-1">挑戰/力量節點</div>
-              <div className="text-sm font-bold">入學與居留手續 (進行中)</div>
             </div>
           </div>
 
           {/* Bottom Left: Luggage (Early Unlock - Emerald Green) */}
-          <div className="absolute top-[85%] left-[25%] -translate-x-1/2 -translate-y-1/2 pointer-events-auto group flex flex-col items-center">
+          <div className="absolute top-[85%] left-[25%] -translate-x-1/2 -translate-y-1/2 pointer-events-auto group z-20 flex flex-col items-center">
             <div className="relative w-20 h-20 flex items-center justify-center">
-              <div className="absolute inset-0 bg-gradient-to-br from-[#10b981] to-[#047857] rotate-45 rounded-lg border-2 border-[#34d399] shadow-[inset_0_0_15px_rgba(255,255,255,0.3),_0_0_25px_rgba(16,185,129,0.5)] transition-transform duration-500 group-hover:scale-110"></div>
-              <div className="relative z-10 text-3xl drop-shadow-[0_2px_5px_rgba(0,0,0,0.6)]">🧳</div>
+              <div className="absolute inset-0 bg-gradient-to-br from-[#10b981] to-[#047857] rotate-45 rounded-lg border-2 border-[#34d399] shadow-[0_0_20px_rgba(16,185,129,0.4)] transition-all duration-500 group-hover:shadow-[0_0_35px_rgba(52,211,153,0.8)] group-hover:scale-105"></div>
+              <div className="absolute inset-2 bg-[#34d399] blur-md opacity-30 rounded-full animate-[pulse_5s_ease-in-out_infinite] pointer-events-none"></div>
+              <div className="relative z-10 text-3xl drop-shadow-md transition-transform duration-300 group-hover:scale-110">🧳</div>
             </div>
             {/* Micro Label */}
-            <div className="absolute -bottom-8 w-max text-center text-[#fcd34d] text-[11px] font-black tracking-widest drop-shadow-md opacity-90 z-10 pointer-events-none">
-              【 ◆ 支線：赴台行李物資 】
-            </div>
-            {/* Hover Tooltip */}
-            <div className="absolute top-[120%] mt-4 left-1/2 -translate-x-1/2 bg-black/90 border border-[#10b981] text-white px-4 py-2 rounded-xl text-center min-w-max shadow-[0_5px_15px_rgba(16,185,129,0.2)] opacity-0 group-hover:opacity-100 transition-opacity z-20">
-              <div className="font-black text-sm text-[#34d399] mb-1">提早開啟支線</div>
-              <div className="text-xs font-bold">赴台行李物資 (已解鎖)</div>
+            <div className="absolute -bottom-10 w-max text-center text-[#34d399] text-[11px] font-black tracking-widest drop-shadow-md z-10 pointer-events-none bg-black/50 px-3 py-1.5 rounded-full border border-[#10b981]/50 backdrop-blur-md">
+              【 ◆ 支線：赴臺行李物資 】
             </div>
           </div>
 
           {/* Bottom Right: Health (Early Unlock - Emerald Green) */}
-          <div className="absolute top-[83%] left-[75%] -translate-x-1/2 -translate-y-1/2 pointer-events-auto group flex flex-col items-center">
+          <div className="absolute top-[83%] left-[75%] -translate-x-1/2 -translate-y-1/2 pointer-events-auto group z-20 flex flex-col items-center">
             <div className="relative w-20 h-20 flex items-center justify-center">
-              <div className="absolute inset-0 bg-gradient-to-br from-[#10b981] to-[#047857] rotate-45 rounded-lg border-2 border-[#34d399] shadow-[inset_0_0_15px_rgba(255,255,255,0.3),_0_0_25px_rgba(16,185,129,0.5)] transition-transform duration-500 group-hover:scale-110"></div>
-              <div className="relative z-10 text-3xl drop-shadow-[0_2px_5px_rgba(0,0,0,0.6)]">🩺</div>
+              <div className="absolute inset-0 bg-gradient-to-br from-[#10b981] to-[#047857] rotate-45 rounded-lg border-2 border-[#34d399] shadow-[0_0_20px_rgba(16,185,129,0.4)] transition-all duration-500 group-hover:shadow-[0_0_35px_rgba(52,211,153,0.8)] group-hover:scale-105"></div>
+              <div className="absolute inset-2 bg-[#34d399] blur-md opacity-30 rounded-full animate-[pulse_5s_ease-in-out_infinite] pointer-events-none"></div>
+              <div className="relative z-10 text-3xl drop-shadow-md transition-transform duration-300 group-hover:scale-110">🩺</div>
             </div>
             {/* Micro Label */}
-            <div className="absolute -bottom-8 w-max text-center text-[#fcd34d] text-[11px] font-black tracking-widest drop-shadow-md opacity-90 z-10 pointer-events-none">
+            <div className="absolute -bottom-10 w-max text-center text-[#34d399] text-[11px] font-black tracking-widest drop-shadow-md z-10 pointer-events-none bg-black/50 px-3 py-1.5 rounded-full border border-[#10b981]/50 backdrop-blur-md">
               【 ◆ 支線：海外預檢作業 】
-            </div>
-            {/* Hover Tooltip */}
-            <div className="absolute top-[120%] mt-4 left-1/2 -translate-x-1/2 bg-black/90 border border-[#10b981] text-white px-4 py-2 rounded-xl text-center min-w-max shadow-[0_5px_15px_rgba(16,185,129,0.2)] opacity-0 group-hover:opacity-100 transition-opacity z-20">
-              <div className="font-black text-sm text-[#34d399] mb-1">提早開啟支線</div>
-              <div className="text-xs font-bold">海外預檢作業 (已解鎖)</div>
             </div>
           </div>
 

@@ -22,6 +22,16 @@ body {
   font-weight: 400;
 }
 
+/* Hide scrollbar for Chrome, Safari and Opera */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+/* Hide scrollbar for IE, Edge and Firefox */
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
 /* Parchment Style (Replacing Glassmorphism) */
 .glass {
   background: rgba(250, 240, 215, 0.9);

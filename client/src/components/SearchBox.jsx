@@ -68,7 +68,7 @@ export default function SearchBox({ trie, invertedIndex, processMap, onSelectPro
         <input 
           type="text" 
           className="bg-transparent w-full text-xl text-[#1d1d1f] outline-none placeholder-[#86868b]"
-          placeholder="【快速傳送門】搜尋流程 (支援簡繁體) 例如: 户口, 选课, IC..."
+          placeholder="【快速傳送門】搜尋流程 (支援簡繁體) 例如: 戶口, 選課, IC..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onFocus={() => setIsFocused(true)}

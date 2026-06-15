@@ -257,7 +257,7 @@ export default function QuestTreeViewer({ graphData, onCompleteNode, onUndoNode,
             {activeQuestModal.id === 'mq_phone' ? (
               <>
                 <p className="text-md font-bold text-[#7a6350] mb-4 bg-[#e0cda5]/30 p-4 rounded-lg border border-[#8b5a2b]/20 leading-relaxed">
-                  「哦？你已經辦好台灣的手機門號了嗎？請在下方登記，以便未來發放公會警報！」
+                  「哦？你已經辦好臺灣的手機門號了嗎？請在下方登記，以便未來發放公會警報！」
                 </p>
                 <div className="mb-6">
                   <label className="block text-sm font-black text-[#c62828] mb-2">
@@ -265,7 +265,7 @@ export default function QuestTreeViewer({ graphData, onCompleteNode, onUndoNode,
                   </label>
                   <input 
                     type="text" 
-                    placeholder="請輸入您的台灣手機號碼 (例如: 0912345678)" 
+                    placeholder="請輸入您的臺灣手機號碼 (例如: 0912345678)" 
                     value={phoneInput}
                     onChange={(e) => { setPhoneInput(e.target.value); setPhoneError(false); }}
                     className="w-full bg-[#fcf9f2] border-2 border-[#8b5a2b]/50 p-3 rounded-xl font-bold text-[#4a3b32] focus:outline-none focus:border-[#8b5a2b]"
@@ -273,7 +273,7 @@ export default function QuestTreeViewer({ graphData, onCompleteNode, onUndoNode,
                   {phoneError && (
                     <div className="mt-3 bg-[#c62828]/10 text-[#c62828] p-3 rounded-lg border border-[#c62828]/30 font-bold text-sm animate-bounce-in-stagger flex items-center">
                       <X size={16} className="mr-2" />
-                      ❌ 請輸入正確的台灣手機號碼格式 (09開頭，共10碼)
+                      ❌ 請輸入正確的臺灣手機號碼格式 (09開頭，共10碼)
                     </div>
                   )}
                 </div>

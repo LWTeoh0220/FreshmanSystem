@@ -15,7 +15,7 @@ export function PlayerProvider({ children }) {
   const [hp, setHp] = useState(100);
   const [mp, setMp] = useState(50);
   const [activeTitle, setActiveTitle] = useState('大馬萌新');
-  const [unlockedTitles, setUnlockedTitles] = useState(['大馬萌新', '剛剛抵台的 Cincai 冒險者']);
+  const [unlockedTitles, setUnlockedTitles] = useState(['大馬萌新']);
   const [activeAvatar, setActiveAvatar] = useState('avatar_default');
   const [unlockedAvatars, setUnlockedAvatars] = useState(['avatar_default', 'avatar_girl_wizard']);
   const [isLevelingUp, setIsLevelingUp] = useState(false);
@@ -40,6 +40,13 @@ export function PlayerProvider({ children }) {
   // Eye Protection Mode State
   const [isEyeCare, setIsEyeCare] = useState(false);
 
+  // Inventory & Hidden Collectibles
+  const [inventory, setInventory] = useState([]);
+  const [collectedHiddenItems, setCollectedHiddenItems] = useState([]);
+
+  // Multi-Scene Management
+  const [currentSceneId, setCurrentSceneId] = useState('malaysia_room');
+
   // Load from LocalStorage
   useEffect(() => {
     const saved = localStorage.getItem('player_stats');
@@ -52,7 +59,7 @@ export function PlayerProvider({ children }) {
         setHp(parsed.hp !== undefined ? parsed.hp : 100);
         setMp(parsed.mp !== undefined ? parsed.mp : 50);
         setActiveTitle(parsed.activeTitle || parsed.title || '大馬萌新');
-        setUnlockedTitles(parsed.unlockedTitles || ['大馬萌新', '剛剛抵台的 Cincai 冒險者']);
+        setUnlockedTitles(parsed.unlockedTitles || ['大馬萌新']);
         setActiveAvatar(parsed.activeAvatar || 'avatar_default');
         setUnlockedAvatars(parsed.unlockedAvatars || ['avatar_default', 'avatar_girl_wizard']);
         setFirstClearQuests(parsed.firstClearQuests || []);
@@ -62,6 +69,9 @@ export function PlayerProvider({ children }) {
         setDailyPurchases(parsed.dailyPurchases || {});
         setUnlockedLegacyProjects(parsed.unlockedLegacyProjects || []);
         setIsEyeCare(parsed.isEyeCare || false);
+        setInventory(parsed.inventory || []);
+        setCollectedHiddenItems(parsed.collectedHiddenItems || []);
+        setCurrentSceneId(parsed.currentSceneId || 'malaysia_room');
       } catch (e) {
         console.error('Failed to parse player stats', e);
       }
@@ -89,9 +99,10 @@ export function PlayerProvider({ children }) {
   useEffect(() => {
     localStorage.setItem('player_stats', JSON.stringify({ 
       level, xp, coins, hp, mp, activeTitle, unlockedTitles, activeAvatar, unlockedAvatars, firstClearQuests, 
-      projectBought, projectQuestCleared, lootHistory, dailyPurchases, unlockedLegacyProjects, isEyeCare 
+      projectBought, projectQuestCleared, lootHistory, dailyPurchases, unlockedLegacyProjects, isEyeCare,
+      inventory, collectedHiddenItems, currentSceneId
     }));
-  }, [level, xp, coins, hp, mp, activeTitle, unlockedTitles, activeAvatar, unlockedAvatars, firstClearQuests, projectBought, projectQuestCleared, lootHistory, dailyPurchases, unlockedLegacyProjects, isEyeCare]);
+  }, [level, xp, coins, hp, mp, activeTitle, unlockedTitles, activeAvatar, unlockedAvatars, firstClearQuests, projectBought, projectQuestCleared, lootHistory, dailyPurchases, unlockedLegacyProjects, isEyeCare, inventory, collectedHiddenItems, currentSceneId]);
 
   // Method to add rewards
   const addReward = (addedXp, addedCoins, addedMp = 0) => {
@@ -113,6 +124,23 @@ export function PlayerProvider({ children }) {
         return 100; // Cap at 100 temporarily for the bar animation
       }
       return newXp;
+    });
+  };
+
+  const addInventoryItem = (item) => {
+    setInventory(prev => {
+      const existing = prev.find(i => i.id === item.id);
+      if (existing) {
+        return prev.map(i => i.id === item.id ? { ...i, count: i.count + 1 } : i);
+      }
+      return [...prev, { ...item, count: 1 }];
+    });
+  };
+
+  const markHiddenItemCollected = (itemId) => {
+    setCollectedHiddenItems(prev => {
+      if (!prev.includes(itemId)) return [...prev, itemId];
+      return prev;
     });
   };
 
@@ -223,7 +251,10 @@ export function PlayerProvider({ children }) {
       isAlmanacOpen, setIsAlmanacOpen,
       activeAlmanacTab, setActiveAlmanacTab,
       isYggdrasilOpen, setIsYggdrasilOpen,
-      isEyeCare, setIsEyeCare
+      isEyeCare, setIsEyeCare,
+      inventory, addInventoryItem,
+      collectedHiddenItems, markHiddenItemCollected,
+      currentSceneId, setCurrentSceneId
     }}>
       {children}
     </PlayerContext.Provider>

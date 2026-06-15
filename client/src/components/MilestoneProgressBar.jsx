@@ -4,8 +4,8 @@ import { Trophy, Check, Lock, MapPin, Sparkles, BookOpen, AlertCircle, X } from 
 import { usePlayer } from '../contexts/PlayerContext';
 const tips = [
   "💡 提示：學校附近的郵局在中午時間人潮最多，建議下午兩點後再去傳送！",
-  "💡 提示：台灣的便利商店可以影印和繳交各種規費，是全能型的新手補給站。",
-  "💡 提示：記得隨身攜帶居留證，它是你在台灣的第二張護照。",
+  "💡 提示：臺灣的便利商店可以影印和繳交各種規費，是全能型的新手補給站。",
+  "💡 提示：記得隨身攜帶居留證，它是你在臺灣的第二張護照。",
   "💡 提示：搭乘捷運時，深藍色的博愛座通常是保留給有需要的人。"
 ];
 
@@ -68,7 +68,7 @@ export default function AdventurerLobbyPanel({ onSelectProcess, nodes = [] }) {
   }, []);
 
   const summerNodes = [
-    { title: "🧳 赴台行李物資", status: localStorage.getItem('summer_node_pre_arrival_luggage') || "available", processId: "pre_arrival_luggage" },
+    { title: "🧳 赴臺行李物資", status: localStorage.getItem('summer_node_pre_arrival_luggage') || "available", processId: "pre_arrival_luggage" },
     { title: "🩺 海外預檢作業", status: localStorage.getItem('summer_node_pre_arrival_health') || "available", processId: "pre_arrival_health" },
     { title: "🛡️ 入學與居留手續", status: "available", processId: "arc_process" },
     { title: "📝 網路選課預選", status: "locked", lockDate: "08/19" },
@@ -77,7 +77,7 @@ export default function AdventurerLobbyPanel({ onSelectProcess, nodes = [] }) {
 
   return (
     <>
-      <div className="w-full max-w-[1200px] mx-auto glass bg-[#f4e8d1] p-6 lg:p-8 rounded-3xl border-4 border-[#8b5a2b] shadow-2xl relative flex flex-col lg:flex-row items-stretch gap-6 rpg-border animate-floating">
+      <div className="w-full max-w-[1200px] mx-auto glass bg-[#f4e8d1] p-6 lg:p-8 rounded-3xl border-4 border-[#8b5a2b] shadow-2xl relative flex flex-col lg:flex-row items-stretch gap-6 rpg-border">
         
         {/* Ribbon Calendar */}
         <div className="absolute top-0 left-0 -translate-y-1/2 -translate-x-4 -rotate-3 z-50 pointer-events-none">
@@ -122,30 +122,29 @@ export default function AdventurerLobbyPanel({ onSelectProcess, nodes = [] }) {
                     <div className="absolute right-full top-1/2 -translate-y-1/2 w-12 sm:w-20 border-t-[3px] border-dashed border-[#8b5a2b]/60 z-0 flex items-center justify-evenly text-[#8b5a2b]/30 text-[10px]">
                       <span>🐾</span>
                       <span>🐾</span>
-                      {/* Player Pointer at the path approaching the current active node */}
+                      {/* Subdued Current Indicator instead of bouncing wizard */}
                       {isCurrent && (
-                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-full -mt-2 animate-bounce z-30 drop-shadow-md text-3xl">
-                          🧙‍♂️
+                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#ffcc00] blur-sm w-8 h-8 rounded-full opacity-30 z-[-1] animate-[pulse_3s_ease-in-out_infinite]">
                         </div>
                       )}
                     </div>
                   )}
 
                   {/* Circle Node */}
-                  <div className={`w-14 h-14 sm:w-16 sm:h-16 rounded-full flex items-center justify-center border-4 transition-all duration-300 shadow-md relative cursor-pointer ${
+                  <div className={`w-14 h-14 sm:w-16 sm:h-16 rounded-full flex items-center justify-center border-4 transition-all duration-500 shadow-md relative cursor-pointer ${
                     isCompleted 
                       ? 'bg-[#2e7d32] border-[#1b5e20] text-white hover:scale-110 shadow-[0_0_15px_rgba(46,125,50,0.6)]' 
                       : isCurrent 
-                        ? 'bg-[#ffcc00] border-[#8b5a2b] text-[#4a3b32] scale-125 shadow-[0_0_25px_#ffcc00] active-glow' 
+                        ? 'bg-[#ffcc00] border-[#8b5a2b] text-[#4a3b32] scale-[1.15] shadow-[0_0_20px_rgba(255,204,0,0.6)] transition-transform hover:scale-125' 
                         : 'bg-[#e0cda5] border-[#8b5a2b]/40 text-[#7a6350] grayscale hover:grayscale-0'
                   }`}>
                     {isCompleted && <Check size={32} className="drop-shadow-sm" />}
                     {isCurrent && (
                       <>
-                        <MapPin size={32} className="animate-bounce drop-shadow-md" />
-                        {/* Flashing Exclamation Mark */}
-                        <div className="absolute -top-2 -right-2 bg-[#c62828] text-white rounded-full w-6 h-6 flex items-center justify-center border-2 border-[#f4e8d1] shadow-[0_0_10px_#c62828] animate-[pulse_1s_ease-in-out_infinite] z-20">
-                          <AlertCircle size={14} />
+                        <MapPin size={32} className="drop-shadow-md" />
+                        {/* Elegant Glowing Dot instead of flashing exclamation */}
+                        <div className="absolute -top-1 -right-1 w-4 h-4 bg-[#c62828] rounded-full border-2 border-white shadow-[0_0_10px_#c62828] z-20">
+                           <div className="absolute inset-0 bg-white rounded-full opacity-60 animate-ping"></div>
                         </div>
                       </>
                     )}
@@ -196,13 +195,13 @@ export default function AdventurerLobbyPanel({ onSelectProcess, nodes = [] }) {
             </button>
             <h2 className="text-3xl font-black text-[#4a3b32] mb-6 flex items-center border-b-2 border-[#8b5a2b]/20 pb-4">
               <BookOpen size={36} className="mr-4 text-[#8b5a2b]" />
-              遠古秘典📑 (Almanac)
+              遠古祕典📑 (Almanac)
             </h2>
             <div className="space-y-4 max-h-[60vh] overflow-y-auto custom-scrollbar pr-2">
               {[1, 2, 3, 4, 5].map((_, i) => (
                 <div key={i} className="bg-[#e0cda5]/50 p-4 rounded-xl border border-[#8b5a2b]/30">
-                  <h4 className="font-black text-[#c62828] text-lg mb-2">Q: 在台灣迷路了怎麼辦？</h4>
-                  <p className="text-[#4a3b32] font-bold">A: 請大膽走進任何一間便利商店 (7-11 或全家)，台灣的便利商店店員通常擁有極高的智力與熱心，是新手迷路時的最佳 NPC 導航員。</p>
+                  <h4 className="font-black text-[#c62828] text-lg mb-2">Q: 在臺灣迷路了怎麼辦？</h4>
+                  <p className="text-[#4a3b32] font-bold">A: 請大膽走進任何一間便利商店 (7-11 或全家)，臺灣的便利商店店員通常擁有極高的智力與熱心，是新手迷路時的最佳 NPC 導航員。</p>
                 </div>
               ))}
             </div>

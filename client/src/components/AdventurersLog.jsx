@@ -7,10 +7,10 @@ import { usePlayer } from '../contexts/PlayerContext';
 
 const loadingTips = [
   "[系統提示] 據說把發票存在載具裡，中獎機率會大幅提升喔！",
-  "[系統提示] 在台灣新手村，手搖飲的「去冰半糖」是必備的點餐咒語。",
+  "[系統提示] 在臺灣新手村，手搖飲的「去冰半糖」是必備的點餐咒語。",
   "[系統提示] 冒險者公會提醒您，悠遊卡不僅能搭公車，還能在便利商店買藥水。",
-  "[系統提示] 宿舍區長擁有神秘的權限，是新手不可或缺的人脈資源。",
-  "[系統提示] 台灣的冬天濕冷，記得裝備「防禦力+5 的厚外套」。"
+  "[系統提示] 宿舍區長擁有神祕的權限，是新手不可或缺的人脈資源。",
+  "[系統提示] 臺灣的冬天濕冷，記得裝備「防禦力+5 的厚外套」。"
 ];
 
 export default function AdventurersLog() {
@@ -24,7 +24,7 @@ export default function AdventurersLog() {
     const customQuest = {
       id: 'sq_project',
       title: '📜 傳奇支線：前輩的古老試煉',
-      description: '聽說大馬學長姐曾經留下了一本記載著黑科技的魔法書，裡面封印著能夠大幅降低在台灣生存難度的古老魔法。前往商店獲取並參悟它吧！',
+      description: '聽說大馬學長姐曾經留下了一本記載著黑科技的魔法書，裡面封印著能夠大幅降低在臺灣生存難度的古老魔法。前往商店獲取並參悟它吧！',
       icon: 'Book',
       status: projectBought ? 'available' : 'locked',
       requirements: [

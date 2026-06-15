@@ -26,6 +26,41 @@ export default function Layout() {
   const [shakeCampus, setShakeCampus] = useState(false);
   const [copySuccess, setCopySuccess] = useState('');
   const [playerFaction, setPlayerFaction] = useState(localStorage.getItem('player_faction') || '');
+  const [isGlobalFullscreen, setIsGlobalFullscreen] = useState(false);
+
+  const toggleGlobalFullscreen = () => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch(err => {
+        console.error("Error attempting to enable fullscreen:", err);
+      });
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      }
+    }
+  };
+
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsGlobalFullscreen(!!document.fullscreenElement);
+    };
+    
+    const handleKeyDown = (e) => {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+      if (e.key === 'f' || e.key === 'F') {
+        e.preventDefault();
+        toggleGlobalFullscreen();
+      }
+    };
+
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    window.addEventListener('keydown', handleKeyDown);
+    
+    return () => {
+      document.removeEventListener('fullscreenchange', handleFullscreenChange);
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
 
   // Extract completed milestones for badges
   const completedBadges = React.useMemo(() => {
@@ -60,27 +95,27 @@ export default function Layout() {
 
   // Avatar Dictionary
   const avatars = {
-    avatar_default: { icon: '🧙‍♂️', name: '男魔法师', condition: '預設解鎖' },
-    avatar_girl_wizard: { icon: '🧙‍♀️', name: '女魔法师', condition: '預設解鎖' },
+    avatar_default: { icon: '🧙‍♂️', name: '男魔法師', condition: '預設解鎖' },
+    avatar_girl_wizard: { icon: '🧙‍♀️', name: '女魔法師', condition: '預設解鎖' },
     avatar_warrior: { icon: '⚔️', name: '像素戰士', condition: '請在公會商店轉蛋機獲取' },
     avatar_sage: { icon: '📜', name: '智慧賢者', condition: '需完成所有新生行政主線' },
-    avatar_assassin: { icon: '🗡️', name: '隱秘刺客', condition: '需綁定出生陣營' }
+    avatar_assassin: { icon: '🗡️', name: '隱祕刺客', condition: '需綁定出生陣營' }
   };
 
   const almanacTabs = [
     { id: 'dorm-network', label: '🚪 住宿與網路注意事項', icon: '🚪' },
     { id: 'working-permit', label: '工作許可證線上申辦', icon: '💼' },
-    { id: 'luggage', label: '赴台行李打包不超重清單', icon: '🧳' },
+    { id: 'luggage', label: '赴臺行李打包不超重清單', icon: '🧳' },
     { id: 'insurance', label: '僑外生健保理賠天書', icon: '🏥' }
   ];
 
   const navItems = [
-    { path: '/', name: '世界地圖', icon: <Map size={18} /> },
-    { path: '/tasks', name: '任務看板', icon: <Swords size={18} /> },
-    { path: '/achievements', name: '成就進度', icon: <Trophy size={18} /> },
-    { path: '/adventurers-log', name: '冒險手札', icon: <Book size={18} /> },
-    { path: '/shop', name: '公會商店', icon: <Map size={18} /> },
-    { path: '/campus', name: '🗺 2D 校園地圖', icon: <Compass size={18} /> }
+    { path: '/', name: '世界地圖', icon: <Map size={16} /> },
+    { path: '/tasks', name: '任務看板', icon: <Swords size={16} /> },
+    { path: '/achievements', name: '成就進度', icon: <Trophy size={16} /> },
+    { path: '/adventurers-log', name: '冒險手札', icon: <Book size={16} /> },
+    { path: '/shop', name: '公會商店', icon: <Map size={16} /> },
+    { path: '/campus', name: '🗺 時空探勘地圖', icon: <Compass size={16} /> }
   ];
 
   const handleNavClick = (e, path) => {
@@ -99,7 +134,7 @@ export default function Layout() {
   return (
     <div className="min-h-screen flex flex-col">
       {/* RPG Style Navigation Bar */}
-      <nav className="glass sticky top-0 z-[100] px-6 py-3 flex items-center justify-between shadow-md border-b-2 border-[#8b5a2b]/20">
+      <nav className="glass sticky top-0 z-[100] px-4 md:px-6 py-3 flex flex-nowrap items-center justify-between shadow-md border-b-2 border-[#8b5a2b]/20 gap-x-4 overflow-x-auto no-scrollbar">
         
         {/* Left: Player Status Bar */}
         <div className="relative group/player z-50">
@@ -219,18 +254,30 @@ export default function Layout() {
         </div>
         
         {/* Right: Game Menu */}
-        <div className="flex space-x-2 bg-[#4a3b32]/5 p-1.5 rounded-2xl items-center">
+        <div className="flex flex-nowrap gap-2 bg-[#4a3b32]/5 p-1.5 rounded-2xl items-center justify-end">
           
           {/* Global Almanac Button */}
           <button 
             onClick={() => setIsAlmanacOpen(true)}
-            className="flex items-center space-x-2 font-bold px-4 py-2 rounded-xl transition-all mr-2 group relative bg-gradient-to-br from-[#8b5a2b] to-[#5c3a21] text-[#f4e8d1] shadow-[0_4px_15px_rgba(139,90,43,0.4)] hover:shadow-[0_0_20px_#8b5a2b] hover:scale-105 active:scale-95 border border-[#8b5a2b] shrink-0"
+            className="flex items-center space-x-1 text-sm font-bold px-3 py-1.5 rounded-xl transition-all mr-1 group relative bg-gradient-to-br from-[#8b5a2b] to-[#5c3a21] text-[#f4e8d1] shadow-[0_4px_15px_rgba(139,90,43,0.4)] hover:shadow-[0_0_20px_#8b5a2b] hover:scale-105 active:scale-95 border border-[#8b5a2b] shrink-0"
           >
-            <span className="tracking-widest whitespace-nowrap">📑 遠古秘典</span>
+            <span className="tracking-widest whitespace-nowrap">📑 遠古祕典</span>
           </button>
           
           {/* Vertical divider */}
-          <div className="w-0.5 h-6 bg-[#8b5a2b]/20 mr-2 shrink-0"></div>
+          <div className="w-0.5 h-5 bg-[#8b5a2b]/20 mr-1 shrink-0"></div>
+
+          {/* Fullscreen Toggle */}
+          <button 
+            onClick={toggleGlobalFullscreen}
+            className="flex items-center justify-center w-8 h-8 rounded-xl transition-all hover:scale-105 active:scale-95 bg-white/50 text-[#8b5a2b] shadow-sm hover:shadow-md hover:bg-white border border-[#8b5a2b]/30 mx-0.5 shrink-0 group relative"
+          >
+            <span className="text-sm">{isGlobalFullscreen ? '🔲' : '🔳'}</span>
+            <div className="absolute top-full mt-2 w-32 bg-[#4a3b32] text-[#f4e8d1] p-2 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none shadow-xl border-2 border-[#8b5a2b] z-50 text-xs font-bold text-center">
+              <div className="absolute bottom-full left-1/2 -translate-x-1/2 border-4 border-transparent border-b-[#4a3b32]"></div>
+              {isGlobalFullscreen ? '退出全螢幕 [F]' : '進入全螢幕 [F]'}
+            </div>
+          </button>
 
           {navItems.map(item => {
               const isCampus = item.path === '/campus';
@@ -243,7 +290,7 @@ export default function Layout() {
                   {isCampus && (
                     <button 
                       onClick={() => setIsYggdrasilOpen(true)}
-                      className="flex items-center space-x-2 font-black px-4 py-2 rounded-xl transition-all hover:scale-105 active:scale-95 bg-gradient-to-r from-[#064e3b] to-[#047857] text-[#f4e8d1] shadow-[0_4px_10px_rgba(16,185,129,0.4)] hover:shadow-[0_0_15px_#10b981] hover:text-[#ffcc00] border border-[#10b981]/50 mx-1 group shrink-0"
+                      className="flex items-center space-x-1 text-sm font-black px-3 py-1.5 rounded-xl transition-all hover:scale-105 active:scale-95 bg-gradient-to-r from-[#064e3b] to-[#047857] text-[#f4e8d1] shadow-[0_4px_10px_rgba(16,185,129,0.4)] hover:shadow-[0_0_15px_#10b981] hover:text-[#ffcc00] border border-[#10b981]/50 mx-0.5 group shrink-0"
                     >
                       <span className="drop-shadow-[0_0_5px_rgba(16,185,129,0.8)] group-hover:animate-pulse">🌳</span>
                       <span className="whitespace-nowrap">世界樹戰情室</span>
@@ -253,7 +300,7 @@ export default function Layout() {
                     <Link
                       to={item.path}
                       onClick={(e) => handleNavClick(e, item.path)}
-                      className={`flex items-center space-x-2 font-bold px-4 py-2 rounded-xl transition-all
+                      className={`flex items-center space-x-1 text-sm font-bold px-3 py-1.5 rounded-xl transition-all
                         ${location.pathname === item.path 
                           ? 'bg-[#8b5a2b] text-[#f4e8d1] shadow-inner' 
                           : 'text-[#4a3b32] hover:bg-[#8b5a2b]/10'}
@@ -298,14 +345,14 @@ export default function Layout() {
                 </h4>
                 <p className="text-[#7a6350] font-bold mb-3">發布日期：2026-05-31</p>
                 <p className="text-[#4a3b32] font-medium leading-relaxed">
-                  請各位同學注意，本學期僑外生工作證已經開放申請。有意在校內外打工的同學，請備妥護照、居留證影本與在學證明，至國際處櫃台或線上系統進行申請。
+                  請各位同學注意，本學期僑外生工作證已經開放申請。有意在校內外打工的同學，請備妥護照、居留證影本與在學證明，至國際處櫃臺或線上系統進行申請。
                 </p>
               </div>
               <div className="bg-[#e0cda5]/30 p-5 rounded-xl border border-[#8b5a2b]/20">
                 <h4 className="font-black text-[#4a3b32] text-xl mb-2">中秋節文化體驗營報名</h4>
                 <p className="text-[#7a6350] font-bold mb-3">發布日期：2026-05-15</p>
                 <p className="text-[#4a3b32] font-medium leading-relaxed">
-                  國際處將於下個月舉辦中秋節文化體驗營，帶領大家一起做月餅、吃柚子。名額有限，報名從速！
+                  國際處將於下個月舉辦中秋節文化體驗營，帶領大家一起做月餅、喫柚子。名額有限，報名從速！
                 </p>
               </div>
             </div>
@@ -409,7 +456,7 @@ export default function Layout() {
                   </div>
                   <div className="bg-[#8b5a2b]/10 p-3 rounded-xl border border-[#8b5a2b]/30 flex flex-col justify-center items-center shadow-inner hover:bg-[#8b5a2b]/20 transition-colors">
                     <div className="text-2xl drop-shadow-sm mb-1">⏳</div>
-                    <div className="text-[10px] text-[#7a6350] font-black mb-0.5">抵台冒險</div>
+                    <div className="text-[10px] text-[#7a6350] font-black mb-0.5">抵臺冒險</div>
                     <div className="text-[#4a3b32] font-black text-sm tracking-wider">第 1 天</div>
                   </div>
                 </div>
@@ -530,7 +577,7 @@ export default function Layout() {
                       {/* Phone Number */}
                       <div className="bg-white/60 p-4 rounded-xl border-2 border-[#8b5a2b]/30 flex justify-between items-center shadow-sm hover:border-[#8b5a2b] transition-colors group">
                     <div>
-                      <div className="text-xs font-black text-[#7a6350] mb-1">📱 千里傳音符：台灣 SIM 道具</div>
+                      <div className="text-xs font-black text-[#7a6350] mb-1">📱 千里傳音符：臺灣 SIM 道具</div>
                       <div className="text-[#4a3b32] font-black text-lg tracking-wider">
                         {localStorage.getItem('user_phone') || '0912-345-678'}
                       </div>
@@ -666,7 +713,7 @@ export default function Layout() {
                     <p className="flex items-start"><span className="text-[#8b5a2b] mr-2 shrink-0 font-mono">├─</span> <span>🚪 宿舍重要須知：南辦宿舍晚上 11 點大門管制。</span></p>
                     <p className="flex items-start"><span className="text-[#8b5a2b] mr-2 shrink-0 font-mono">├─</span> <span>🔌 網路線連線攻略：請自備 Cat6 網路線插上牆壁插座，並登入學校 Portal 系統登記電腦 MAC 位址以解鎖上網功能。</span></p>
                     <div className="mt-8 pt-4 border-t border-[#8b5a2b]/20">
-                      <p className="opacity-60 text-justify tracking-wider">這是關於宿舍生活的學長姐忠告。維持早睡早起，確保網路連線順暢，才是資工系學生的生存之道。</p>
+                      <p className="opacity-60 text-justify tracking-wider">這是關於宿舍生活的學長姐忠告。維持早睡早起，確保網路連線順暢，纔是資工系學生的生存之道。</p>
                     </div>
                   </div>
                 </div>
@@ -696,14 +743,14 @@ export default function Layout() {
               {activeAlmanacTab === 'luggage' && (
                 <div className="flex flex-col h-full animate-[fadeIn_0.3s_ease-out]">
                   <h3 className="text-3xl font-black text-[#7a6350] mb-6 flex items-center border-b-2 border-[#8b5a2b]/20 pb-4 flex-shrink-0">
-                    🧳 赴台行李打包不超重清單
+                    🧳 赴臺行李打包不超重清單
                   </h3>
                   <div className="w-full flex-1 overflow-y-auto custom-scrollbar pr-4 text-[16px] leading-relaxed text-[#4a3b32] font-black space-y-6 pb-20">
-                    <p>1. 證件類：護照、入台證、身分證、錄取通知書、白底大頭照 (極度重要，請帶至少 20 張)。</p>
+                    <p>1. 證件類：護照、入臺證、身分證、錄取通知書、白底大頭照 (極度重要，請帶至少 20 張)。</p>
                     <p>2. 電子產品：筆記型電腦 (資工系必備，建議 16GB RAM 以上)、萬國轉接頭、行動電源。</p>
-                    <p>3. 衣物：台灣夏天極熱且潮濕，多帶短袖與排汗衫。冬天北部濕冷，建議帶一件防風防水保暖外套 (GORE-TEX 佳)。</p>
-                    <p>4. 藥品：個人常用藥品、腸胃藥、感冒藥。台灣就醫方便，但初到台灣若水土不服可先應急。</p>
-                    <p>5. 文具與雜物：慣用文具 (台灣皆可買到，不需帶太多)、少量馬來西亞零食 (解鄉愁用)。</p>
+                    <p>3. 衣物：臺灣夏天極熱且潮濕，多帶短袖與排汗衫。冬天北部濕冷，建議帶一件防風防水保暖外套 (GORE-TEX 佳)。</p>
+                    <p>4. 藥品：個人常用藥品、腸胃藥、感冒藥。臺灣就醫方便，但初到臺灣若水土不服可先應急。</p>
+                    <p>5. 文具與雜物：慣用文具 (臺灣皆可買到，不需帶太多)、少量馬來西亞零食 (解鄉愁用)。</p>
                     <p className="text-[#c62828] p-3 bg-red-100/50 rounded-lg border border-red-300">⚠️ 絕對不可攜帶：肉類製品 (包含肉乾、泡麵內的肉塊)、生鮮蔬果。若遭查獲將面臨鉅額罰款！</p>
                     {Array(15).fill(<p className="opacity-50 text-justify tracking-wider">（以下省略極高密度攻略內容...）傳奇大典的羊皮紙能完美收納數以萬計的文字，請盡情向下滑動閱讀。</p>)}
                   </div>
@@ -717,10 +764,10 @@ export default function Layout() {
                     🏥 僑外生健保理賠天書
                   </h3>
                   <div className="w-full flex-1 overflow-y-auto custom-scrollbar pr-4 text-[16px] leading-relaxed text-[#4a3b32] font-black space-y-6 pb-20">
-                    <p>第一條：僑外生抵台滿六個月後，方可加入全民健康保險。前六個月需投保僑外生醫療傷病保險。</p>
+                    <p>第一條：僑外生抵臺滿六個月後，方可加入全民健康保險。前六個月需投保僑外生醫療傷病保險。</p>
                     <p>第二條：就診時務必攜帶居留證與健保卡 (若已加保)。若於前六個月就診，請先自費墊付，並務必向醫院索取「診斷證明書」及「醫療費用收據正本」。</p>
                     <p>第三條：理賠申請流程：備妥上述文件，填寫理賠申請書，交至國際事務處承辦人。理賠款項通常於一個月內匯入學生提供之郵局帳戶。</p>
-                    <p className="text-[#007aff] p-3 bg-blue-100/50 rounded-lg border border-blue-300">💡 提示：一般感冒門診掛號費約 150-200 台幣 (有健保時)。若無健保，可能高達 500-1000 台幣。</p>
+                    <p className="text-[#007aff] p-3 bg-blue-100/50 rounded-lg border border-blue-300">💡 提示：一般感冒門診掛號費約 150-200 臺幣 (有健保時)。若無健保，可能高達 500-1000 臺幣。</p>
                     {Array(15).fill(<p className="opacity-50 text-justify tracking-wider">（以下省略極高密度攻略內容...）傳奇大典的羊皮紙能完美收納數以萬計的文字，請盡情向下滑動閱讀。</p>)}
                   </div>
                 </div>
@@ -742,7 +789,7 @@ export default function Layout() {
       </div>
 
       {/* Main Content Area */}
-      <main className="flex-1 p-8 max-w-[1400px] mx-auto w-full">
+      <main className={`flex-1 w-full flex flex-col ${location.pathname === '/campus' ? '' : 'p-8 max-w-[1400px] mx-auto'}`}>
         <Outlet />
       </main>
 

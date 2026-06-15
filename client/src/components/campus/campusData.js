@@ -329,7 +329,7 @@ export const COLLISION_BOXES = [
     "y": 51.41,
     "w": 3.33,
     "h": 21.04,
-    "name": "校史馆"
+    "name": "校史館"
   }
 ];
 
@@ -338,199 +338,304 @@ export const TILE_COLORS = {};
 
 export const BUILDING_POIS = [
   {
-    "id": "地标 #1",
+    "id": "地標 #1",
     "name": "國父百年紀念館",
     "x": 18.29,
     "y": 27.7,
     "imageUrl": "/photos/1國父百年紀念館.jpg"
   },
   {
-    "id": "地标 #2",
+    "id": "地標 #2",
     "name": "光華館",
     "x": 15.91,
     "y": 7.56,
     "imageUrl": "/photos/2光華館.jpg"
   },
   {
-    "id": "地标 #3",
+    "id": "地標 #3",
     "name": "第六教學大樓",
     "x": 36.66,
     "y": 26.76,
     "imageUrl": "/photos/3第六教學大樓.jpg"
   },
   {
-    "id": "地标 #4",
+    "id": "地標 #4",
     "name": "宏裕科技大樓",
     "x": 39.2,
     "y": 17.82,
     "imageUrl": "/photos/4宏裕科技大樓.jpg"
   },
   {
-    "id": "地标 #5",
+    "id": "地標 #5",
     "name": "生物科技館(五教)",
     "x": 40.59,
     "y": 13.31,
     "imageUrl": "/photos/5生物科技館(五教).jpg"
   },
   {
-    "id": "地标 #6",
+    "id": "地標 #6",
     "name": "化工館",
     "x": 50.07,
     "y": 27.03,
     "imageUrl": "/photos/6化工館.jpg"
   },
   {
-    "id": "地标 #7",
+    "id": "地標 #7",
     "name": "分子館",
     "x": 64.24,
     "y": 27.16,
     "imageUrl": "/photos/7分子館.jpg"
   },
   {
-    "id": "地标 #8",
+    "id": "地標 #8",
     "name": "中正紀念館",
     "x": 75.95,
     "y": 27.61,
     "imageUrl": "/photos/8中正紀念館.jpg"
   },
   {
-    "id": "地标 #9",
+    "id": "地標 #9",
     "name": "土木館",
     "x": 14.68,
     "y": 34.73,
     "imageUrl": "/photos/9土木館.jpg"
   },
   {
-    "id": "地标 #10",
+    "id": "地標 #10",
     "name": "第一教學大樓",
     "x": 31.02,
     "y": 33.66,
     "imageUrl": "/photos/10第一教學大樓.jpg"
   },
   {
-    "id": "地标 #11",
+    "id": "地標 #11",
     "name": "第二教學大樓",
     "x": 47.49,
     "y": 33.96,
     "imageUrl": "/photos/11第二教學大樓.jpg"
   },
   {
-    "id": "地标 #12",
+    "id": "地標 #12",
     "name": "化學館",
     "x": 62.26,
     "y": 33.64,
     "imageUrl": "/photos/12化學館.jpg"
   },
   {
-    "id": "地标 #13",
+    "id": "地標 #13",
     "name": "材資館",
     "x": 14.56,
     "y": 64.34,
     "imageUrl": "/photos/13材資館.jpg"
   },
   {
-    "id": "地标 #14",
+    "id": "地標 #14",
     "name": "設計館",
     "x": 19.12,
     "y": 70.08,
     "imageUrl": "/photos/14設計館.JPG"
   },
   {
-    "id": "地标 #15",
+    "id": "地標 #15",
     "name": "第四教學大樓",
     "x": 25.92,
     "y": 65.4,
     "imageUrl": "/photos/15第四教學大樓.jpg"
   },
   {
-    "id": "地标 #16",
+    "id": "地標 #16",
     "name": "紅樓",
     "x": 48.1,
     "y": 50.98,
     "imageUrl": "/photos/16紅樓.JPG"
   },
   {
-    "id": "地标 #17",
+    "id": "地標 #17",
     "name": "第三教學大樓",
     "x": 40.18,
     "y": 60.95,
     "imageUrl": "/photos/17第三教學大樓.jpg"
   },
   {
-    "id": "地标 #18",
+    "id": "地標 #18",
     "name": "圖書館",
     "x": 62.22,
     "y": 59.25,
     "imageUrl": "/photos/18圖書館.jpg"
   },
   {
-    "id": "地标 #19",
+    "id": "地標 #19",
     "name": "共同科館",
     "x": 43.15,
     "y": 76.6,
     "imageUrl": "/photos/19共同科館.jpg"
   },
   {
-    "id": "地标 #20",
+    "id": "地標 #20",
     "name": "行政大樓",
     "x": 69.71,
     "y": 76.38,
     "imageUrl": "/photos/20行政大樓.jpg"
   },
   {
-    "id": "地标 #21",
+    "id": "地標 #21",
     "name": "綜合科館",
     "x": 74.8,
     "y": 78.57,
     "imageUrl": "/photos/21綜合科館.jpg"
   },
   {
-    "id": "地标 #22",
+    "id": "地標 #22",
     "name": "校史館",
     "x": 30.56,
     "y": 51.02,
     "imageUrl": "/photos/22校史館.jpg"
   },
   {
-    "id": "地标 #23",
+    "id": "地標 #23",
     "name": "忠孝新生4號出口",
     "x": 4.85,
     "y": 94.85,
     "imageUrl": "/photos/23忠孝新生4號出口.png"
   },
   {
-    "id": "地标 #24",
+    "id": "地標 #24",
     "name": "藝文中心",
     "x": 62.36,
     "y": 93.85,
     "imageUrl": "/photos/24藝文中心.png"
   },
   {
-    "id": "地标 #25",
+    "id": "地標 #25",
     "name": "新生校門",
     "x": 6.43,
     "y": 30.6,
     "imageUrl": "/photos/25新生校門.png"
   },
   {
-    "id": "地标 #26",
+    "id": "地標 #26",
     "name": "正校門",
     "x": 71.9,
     "y": 92.6,
     "imageUrl": "/photos/26正校門.jpg"
   },
   {
-    "id": "地标 #27",
+    "id": "地標 #27",
     "name": "斑馬線",
     "x": 91.8,
     "y": 19.7,
     "imageUrl": "/photos/27斑馬線.png"
   },
   {
-    "id": "地标 #28",
-    "name": "地标 #28",
+    "id": "地標 #28",
+    "name": "地標 #28",
     "x": 22.97,
     "y": 16.63,
     "imageUrl": "/photos/28.png"
+  },
+  {
+    "id": "地標 #29",
+    "name": "地標 #29",
+    "x": 9.93,
+    "y": 23.36,
+    "imageUrl": "https://placehold.co/800x500/111827/ffffff?text=%E5%9C%B0%E6%A8%99%20%2329"
+  },
+  {
+    "id": "地標 #30",
+    "name": "地標 #30",
+    "x": 9.53,
+    "y": 18.78,
+    "imageUrl": "https://placehold.co/800x500/111827/ffffff?text=%E5%9C%B0%E6%A8%99%20%2330"
   }
 ];
+
+export const HIDDEN_COLLECTIBLES = [
+  {
+    id: "item_01",
+    name: "被遺忘的隨身碟",
+    desc: "裡面裝滿了資工系十年來所有的期中期末考古題，是傳說中的神器。",
+    rarity: "legendary",
+    icon: "💾",
+    x: 42.1,
+    y: 28.5
+  },
+  {
+    id: "item_02",
+    name: "破洞的愛心傘",
+    desc: "曾經為某個沒帶傘的學長遮風擋雨，雖然破了一個大洞但仍堪用。",
+    rarity: "common",
+    icon: "☂️",
+    x: 65.5,
+    y: 55.2
+  },
+  {
+    id: "item_03",
+    name: "建國啤酒廠漢堡",
+    desc: "傳說中只有在深夜才會出沒的幽靈餐車賣的超級起司牛肉堡，散發著神聖的光芒。",
+    rarity: "rare",
+    icon: "🍔",
+    x: 8.5,
+    y: 40.2
+  }
+];
+
+export const SCENES = {
+  'ntut_campus': {
+    id: 'ntut_campus',
+    name: '北科大校園',
+    imageUrl: '/campus_map.png',
+    startX: 6.43,
+    startY: 30.6,
+    zoom: 1.6,
+    charScale: 0.25,
+    speed: 2.0,
+    pois: BUILDING_POIS,
+    collisions: COLLISION_BOXES,
+    collectibles: HIDDEN_COLLECTIBLES
+  },
+  'malaysia_room': {
+    id: 'malaysia_room',
+    name: '大馬家鄉臥室',
+    imageUrl: '/room.png',
+    startX: 50,
+    startY: 50,
+    zoom: 1.0,
+    charScale: 0.65,
+    speed: 4.0,
+    pois: [
+      {
+        "id": "room_poi_1",
+        "x": 30,
+        "y": 40,
+        "type": 10,
+        "name": "行李箱",
+        "description": "已經塞滿了冬衣和泡麵的行李箱。"
+      },
+      {
+        "id": "room_poi_2",
+        "x": 70,
+        "y": 60,
+        "type": 10,
+        "name": "護照與機票",
+        "description": "前往台灣的單程機票，即將出發！"
+      },
+      {
+        "id": "room_poi_door",
+        "x": 50,
+        "y": 90,
+        "type": 11,
+        "name": "臥室房門",
+        "description": "點擊前往機場搭機飛往台灣！"
+      }
+    ],
+    collisions: [
+      { "x": 0, "y": 0, "w": 5, "h": 100, "name": "Left Border" },
+      { "x": 0, "y": 0, "w": 100, "h": 5, "name": "Top Border" },
+      { "x": 95, "y": 0, "w": 5, "h": 100, "name": "Right Border" },
+      { "x": 0, "y": 95, "w": 100, "h": 5, "name": "Bottom Edge" },
+      { "x": 0, "y": 0, "w": 30, "h": 30, "name": "Bed" },
+      { "x": 70, "y": 0, "w": 30, "h": 30, "name": "Desk" }
+    ],
+    collectibles: []
+  }
+};

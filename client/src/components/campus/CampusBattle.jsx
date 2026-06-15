@@ -18,7 +18,7 @@ export default function CampusBattle({ npc, onEnd }) {
       // Fallback
       setQuestion({
         q: '這是一個測試問題，北科大在哪個城市？',
-        choices: ['台北', '台中', '高雄', '花蓮'],
+        choices: ['臺北', '臺中', '高雄', '花蓮'],
         ans: 0
       });
     }
